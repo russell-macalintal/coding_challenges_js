@@ -33,23 +33,27 @@ console.log(`Puzzle to solve: ${scrambled}`);
 
 // JPMCC CODING CHALLENGE - NUMBER CHECKER
 const solution = (problem) => {
-    let all = problem.split("");
+    
     let answer = [];
 
     const numerals = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
-   
-    numerals.forEach((number, idx) => {
-        let num_arr = number.split("");
-        if(num_arr.every( val => all.includes(val))){
-            answer.push(idx);
-            // num_arr.every(letter => all.replace(letter, ""));
-        }
-    })
-    
+    while(problem.length > 0){
+        numerals.forEach((number, idx) => {
+            let all = problem.split("");
+            let num_arr = number.split("");
+            if(num_arr.every( val => all.includes(val))){
+                answer.push(idx);
+                num_arr.forEach(letter => problem = problem.replace(letter, ''));
+                console.log(problem);
+            }
+        })
+    }
+
+    answer.sort();
 
     console.log(answer);
-    console.log(all);
+
 }
 
 solution(scrambled);
