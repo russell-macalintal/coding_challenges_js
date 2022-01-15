@@ -26,7 +26,9 @@ const scrambler = (word) => {
     return a.join("");
 }
 
-let scrambled = scrambler("zeroonetwotwoeightnine");
+// let scrambled = scrambler("zeroonefournine");
+// let scrambled = scrambler("zeroonetwotwoeightnine");
+let scrambled = scrambler("oneoneonethreethreethreezerofivefive");
 
 console.log(`Puzzle to solve: ${scrambled}`);
 
@@ -39,18 +41,21 @@ const solution = (problem) => {
     const numerals = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
     while(problem.length > 0){
-        numerals.forEach((number, idx) => {
+        // numerals.forEach((number, idx) => {
+        for(let i = 0; i < numerals.length; i++) {
             let all = problem.split("");
-            let num_arr = number.split("");
+            let num_arr = numerals[i].split("");
             if(num_arr.every( val => all.includes(val))){
-                answer.push(idx);
+                answer.push(i);
+                i--;
                 num_arr.forEach(letter => problem = problem.replace(letter, ''));
                 console.log(problem);
             }
-        })
+        }
+        // })
     }
 
-    answer.sort();
+    // answer.sort();
 
     console.log(answer);
 
