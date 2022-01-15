@@ -28,7 +28,9 @@ const scrambler = (word) => {
 
 // let scrambled = scrambler("zeroonefournine");
 // let scrambled = scrambler("zeroonetwotwoeightnine");
-let scrambled = scrambler("oneoneonethreethreethreezerofivefive");
+// let scrambled = scrambler("oneoneonethreethreethreezerofivefive");
+// let scrambled = scrambler("fivefivefivefivefive");
+let scrambled = scrambler("fiveoneonefiveeightzerozero");
 
 console.log(`Puzzle to solve: ${scrambled}`);
 
@@ -49,7 +51,6 @@ const solution = (problem) => {
                 answer.push(i);
                 i--;
                 num_arr.forEach(letter => problem = problem.replace(letter, ''));
-                console.log(problem);
             }
         }
         // })
