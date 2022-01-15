@@ -1,4 +1,4 @@
-// SAMPLE CODE TO ENSURE INDEX.JS FUNCTIONALITY
+// SAMPLE CODE TO CHECK INDEX.JS FUNCTIONALITY
 // const greet = (name = "Tester") => {
 //     console.log(`Hello ${name}`);
 // }
@@ -11,6 +11,7 @@
 // Output: numerical representations of jumbled words sorted in ascending order
 // Import: Duplicates are not excluded from the outputw
 
+// SIMPLE WORD SCRAMBLER
 const scrambler = (word) => {
     let a = word.split("");
     let len = a.length;
@@ -25,4 +26,30 @@ const scrambler = (word) => {
     return a.join("");
 }
 
-console.log(scrambler("zeroonetwoeightnine"));
+let scrambled = scrambler("zeroonetwotwoeightnine");
+
+console.log(`Puzzle to solve: ${scrambled}`);
+
+
+// JPMCC CODING CHALLENGE - NUMBER CHECKER
+const solution = (problem) => {
+    let all = problem.split("");
+    let answer = [];
+
+    const numerals = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+
+   
+    numerals.forEach((number, idx) => {
+        let num_arr = number.split("");
+        if(num_arr.every( val => all.includes(val))){
+            answer.push(idx);
+            // num_arr.every(letter => all.replace(letter, ""));
+        }
+    })
+    
+
+    console.log(answer);
+    console.log(all);
+}
+
+solution(scrambled);
