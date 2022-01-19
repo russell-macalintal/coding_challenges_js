@@ -43,20 +43,19 @@ const solution = (problem) => {
     const numerals = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
     while(problem.length > 0){
-        // numerals.forEach((number, idx) => {
         for(let i = 0; i < numerals.length; i++) {
             let all = problem.split("");
             let num_arr = numerals[i].split("");
             if(num_arr.every( val => all.includes(val))){
                 answer.push(i);
+                // Revert index to check problem statement for duplicate numerals during next for loop execution
                 i--;
+                // Erase found numeral from problem statement
+                // While loop will execute until problem string has 0 length
                 num_arr.forEach(letter => problem = problem.replace(letter, ''));
             }
         }
-        // })
     }
-
-    // answer.sort();
 
     console.log(answer);
 
