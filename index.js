@@ -74,11 +74,13 @@ function cs_solution_1(operations){
     for(let i = 0; i < operations.length; i++){
         let c_arr = operations[i].split(' ');
         let op = {command: c_arr[0], value: c_arr[1]};
-        // console.log(op);
 
         if (op['command'] == 'TYPE'){
-            result += op['value'];
+            result = result.slice(0, cursor_pos) + op['value'] + result.slice(cursor_pos);
             cursor_pos += op['value'].length;
+        } else if (op['command'] == 'MOVE_CURSOR'){
+            result += "";
+            cursor_pos += parseInt(op['value']);
         }
     }
 
