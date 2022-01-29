@@ -1,11 +1,3 @@
-// SAMPLE CODE TO CHECK INDEX.JS FUNCTIONALITY
-// const greet = (name = "Tester") => {
-//     console.log(`Hello ${name}`);
-// }
-
-// greet();
-
-
 // JPMCC CODING CHALLENGE
 // Input: jumbled numeral characters
 // Output: numerical representations of jumbled words sorted in ascending order
@@ -26,13 +18,14 @@ const scrambler = (word) => {
     return a.join("");
 }
 
+// PROBLEM STATEMENTS - ALL SOLUTIONS CHECK OUT
 // let scrambled = scrambler("zeroonefournine");
 // let scrambled = scrambler("zeroonetwotwoeightnine");
 // let scrambled = scrambler("oneoneonethreethreethreezerofivefive");
 // let scrambled = scrambler("fivefivefivefivefive");
-let scrambled = scrambler("fiveoneonefiveeightzerozero");
+// let scrambled = scrambler("fiveoneonefiveeightzerozero");
 
-console.log(`Puzzle to solve: ${scrambled}`);
+// console.log(`Puzzle to solve: ${scrambled}`);
 
 
 // JPMCC CODING CHALLENGE - NUMBER CHECKER
@@ -61,4 +54,36 @@ const solution = (problem) => {
 
 }
 
-solution(scrambled);
+// solution(scrambled);
+
+
+
+// COODESIGNAL PRACTICE PROBLEMS:
+// MIMIC TEXT EDITOR OPERATIONS
+// 'TYPE string' => fills current string with input
+// 'MOVE_CURSOR integer' => moves cursor by the input interval
+// 'SELECT [start_index, end_index]' => selects current text based on starting and ending indices, inclusive
+// 'UNDO' => undoes previous command; can undo multiple commands
+
+let operations = ['TYPE Code', 'TYPE Signal', 'MOVE_CURSOR -3', 'TYPE maCa']
+function cs_solution_1(operations){
+    let result = "";                //INITIATE STRING TO BE RETURNED
+    let cursor_pos = 0;             //INITIATE CURSOR POSITION
+    let prev_commands = [];         //INITIATE ARRAY OF PREVIOUS COMMANDS FOR FUTURE REFERENCE IN UNDO OPERATION
+
+    for(let i = 0; i < operations.length; i++){
+        let c_arr = operations[i].split(' ');
+        let op = {command: c_arr[0], value: c_arr[1]};
+        // console.log(op);
+
+        if (op['command'] == 'TYPE'){
+            result += op['value'];
+            cursor_pos += op['value'].length;
+        }
+    }
+
+    console.log(`Result: ${result}`);
+    console.log(`Current Cursor Position: ${cursor_pos}`)
+}
+
+cs_solution_1(operations)
