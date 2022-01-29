@@ -65,11 +65,11 @@ const solution = (problem) => {
 // 'SELECT [start_index, end_index]' => selects current text based on starting and ending indices, inclusive
 // 'UNDO' => undoes previous command; can undo multiple commands
 
-let operations = ['TYPE Code', 'TYPE Signal', 'MOVE_CURSOR -3', 'TYPE maCa']
+let operations = ['TYPE Code', 'TYPE Signal', 'MOVE_CURSOR -13', 'TYPE maCa']
 function cs_solution_1(operations){
     let result = "";                //INITIATE STRING TO BE RETURNED
     let cursor_pos = 0;             //INITIATE CURSOR POSITION
-    let prev_commands = [];         //INITIATE ARRAY OF PREVIOUS COMMANDS FOR FUTURE REFERENCE IN UNDO OPERATION
+    let prev_ops = [];              //INITIATE ARRAY OF PREVIOUS COMMANDS FOR FUTURE REFERENCE IN UNDO OPERATION
 
     for(let i = 0; i < operations.length; i++){
         let c_arr = operations[i].split(' ');
@@ -78,9 +78,17 @@ function cs_solution_1(operations){
         if (op['command'] == 'TYPE'){
             result = result.slice(0, cursor_pos) + op['value'] + result.slice(cursor_pos);
             cursor_pos += op['value'].length;
+            prev_ops.push({op: op, result: result, cursor_pos});        //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
         } else if (op['command'] == 'MOVE_CURSOR'){
             result += "";
             cursor_pos += parseInt(op['value']);
+            if (cursor_pos < 0){                                        //RESET CURSOR POSITION TO 0 IF VALUE IS NEGATIVE
+                cursor_pos = 0;
+            }
+            prev_ops.push({op: op, result: result, cursor_pos});        //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
+        } else if (op['command'] == 'SELECT'){
+            let select_start = op['value'].split(/\,|\[|\]/)[1]
+            let select_end = op['value'].split(/\,|\[|\]/)[2]
         }
     }
 
