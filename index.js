@@ -79,6 +79,8 @@ function cs_solution_1(operations){
             result = result.slice(0, cursor_pos) + op['value'] + result.slice(cursor_pos);
             cursor_pos += op['value'].length;
             prev_ops.push({op: op, result: result, cursor_pos});        //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
+            console.log(op);
+            console.log(prev_ops);
         } else if (op['command'] == 'MOVE_CURSOR'){
             result += "";
             cursor_pos += parseInt(op['value']);
@@ -87,13 +89,15 @@ function cs_solution_1(operations){
             }
             prev_ops.push({op: op, result: result, cursor_pos});        //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
         } else if (op['command'] == 'SELECT'){
-            let select_start = op['value'].split(/\,|\[|\]/)[1]
-            let select_end = op['value'].split(/\,|\[|\]/)[2]
+            let select_start = op['value'].split(/\,|\[|\]/)[1];
+            let select_end = op['value'].split(/\,|\[|\]/)[2];
+            
         }
     }
 
     console.log(`Result: ${result}`);
     console.log(`Current Cursor Position: ${cursor_pos}`)
+    console.log(`All previous commands: ${prev_ops}`)
 }
 
 cs_solution_1(operations)
