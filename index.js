@@ -65,7 +65,7 @@ const solution = (problem) => {
 // 'SELECT [start_index, end_index]' => selects current text based on starting and ending indices, inclusive
 // 'UNDO' => undoes previous command; can undo multiple commands
 
-let operations = ['TYPE Code', 'TYPE Signal', 'MOVE_CURSOR -13', 'TYPE maCa']
+let operations = ['TYPE Code', 'TYPE Signal', 'MOVE_CURSOR -3', 'TYPE maCa']
 function cs_solution_1(operations){
     let result = "";                //INITIATE STRING TO BE RETURNED
     let cursor_pos = 0;             //INITIATE CURSOR POSITION
@@ -73,31 +73,51 @@ function cs_solution_1(operations){
 
     for(let i = 0; i < operations.length; i++){
         let c_arr = operations[i].split(' ');
-        let op = {command: c_arr[0], value: c_arr[1]};
+        let op = {command: c_arr[0]};
 
         if (op['command'] == 'TYPE'){
+            op['value'] = c_arr[1];
+            if (prev_ops.length > 0){                                   //DETERMINES STRING REPLACEMENT OR NOT DEPENDING ON PREVIOUS 'SELECT' COMMAND
+                if (prev_ops.slice(-1)[0]['op']['command'] == 'SELECT'){
+                    cursor_pos = prev_ops[-1]['op']['select_start'];
+                    result = result.slice(0, select_start) + result.slice(select_end);
+                }
+            }
             result = result.slice(0, cursor_pos) + op['value'] + result.slice(cursor_pos);
             cursor_pos += op['value'].length;
-            prev_ops.push({op: op, result: result, cursor_pos});        //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
-            console.log(op);
-            console.log(prev_ops);
+            prev_ops.push({op, result, cursor_pos});                    //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
         } else if (op['command'] == 'MOVE_CURSOR'){
+            op['value'] = c_arr[1];
             result += "";
             cursor_pos += parseInt(op['value']);
             if (cursor_pos < 0){                                        //RESET CURSOR POSITION TO 0 IF VALUE IS NEGATIVE
                 cursor_pos = 0;
             }
-            prev_ops.push({op: op, result: result, cursor_pos});        //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
+            prev_ops.push({op, result, cursor_pos});                    //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
         } else if (op['command'] == 'SELECT'){
+            op['value'] = c_arr[1];
             let select_start = op['value'].split(/\,|\[|\]/)[1];
             let select_end = op['value'].split(/\,|\[|\]/)[2];
-            
+            result += "";
+            cursor_pos = select_end;
+            prev_ops.push({op, result, cursor_pos, select_start, select_end});
+        } else if (op['command'] == 'UNDO'){
+            if ((prev_ops != [])){
+                cursor_pos = prev_ops[-1]['cursor_pos'];
+                result = prev_ops[-1]['result'];
+                prev_ops.pop();
+            } else {
+                cursor_pos = 0;
+                result = "";
+                prev_ops = [];
+            }
         }
     }
 
     console.log(`Result: ${result}`);
     console.log(`Current Cursor Position: ${cursor_pos}`)
-    console.log(`All previous commands: ${prev_ops}`)
+    console.log(`All previous commands:`)
+    console.log(prev_ops)
 }
 
 cs_solution_1(operations)
