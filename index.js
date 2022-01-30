@@ -71,7 +71,9 @@ const solution = (problem) => {
 // let operations = ['TYPE Code', 'TYPE Signal', 'SELECT [0,3]', 'MOVE_CURSOR -3', 'TYPE maCa']
 // let operations = ['TYPE Code', 'TYPE Signal', 'SELECT [0,10]', 'TYPE MARISSA ZHONG', 'MOVE_CURSOR -5', 'TYPE MACALINTAL-']
 // let operations = ['TYPE Code', 'TYPE Signal', 'SELECT [0,10]', 'TYPE MARISSA ZHONG', 'UNDO', 'MOVE_CURSOR -5', 'TYPE RUSSELL MACALINTAL']
-let operations = ['TYPE Code', 'TYPE Signal', 'SELECT [0,10]', 'TYPE MARISSA ZHONG', 'UNDO', 'TYPE RUSSELL MACALINTAL']
+// let operations = ['TYPE Code', 'TYPE Signal', 'SELECT [0,10]', 'TYPE MARISSA ZHONG', 'UNDO', 'TYPE RUSSELL MACALINTAL']
+// let operations = ['TYPE Code', 'TYPE Signal', 'SELECT [0,10]', 'TYPE MARISSA ZHONG', 'UNDO', 'UNDO', 'UNDO', 'UNDO']
+let operations = ['TYPE Code', 'TYPE Signal', 'SELECT [0,10]', 'TYPE MARISSA ZHONG', 'UNDO', 'UNDO', 'UNDO', 'TYPE  Challenge Complete']
 
 function cs_solution_1(operations){
     let result = "";                //INITIATE STRING TO BE RETURNED
@@ -109,7 +111,7 @@ function cs_solution_1(operations){
             cursor_pos = select_end;
             prev_ops.push({op, result, cursor_pos, select_start, select_end});      //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
         } else if (op['command'] == 'UNDO'){
-            if (prev_ops.length > 0){
+            if (prev_ops.length > 1){
                 cursor_pos = prev_ops.slice(-2)[0]['cursor_pos'];                   //REVERT CURSOR POSITION AND STRING RESULT TO STATE FROM 2 STATES AGO {CURRENT CONDITION MATCHES LAST SAVED STATE}
                 result = prev_ops.slice(-2)[0]['result'];
                 prev_ops.pop();                                                     //REMOVE LAST SAVED STATE FROM ARRAY OF PREVIOUS COMMANDS
