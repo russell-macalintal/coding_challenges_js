@@ -65,22 +65,26 @@ const solution = (problem) => {
 // 'SELECT [start_index, end_index]' => selects current text based on starting and ending indices, inclusive
 // 'UNDO' => undoes previous command; can undo multiple commands
 
-let operations = ['TYPE Code', 'TYPE Signal', 'MOVE_CURSOR -3', 'TYPE maCa']
+// let operations = ['TYPE Code', 'TYPE Signal', 'MOVE_CURSOR -3', 'TYPE maCa']
+// let operations = ['TYPE Code', 'TYPE Signal', 'MOVE_CURSOR -13', 'TYPE maCa']
+// let operations = ['TYPE Code', 'TYPE Signal', 'SELECT [0,10]', 'MOVE_CURSOR -3', 'TYPE maCa']
+// let operations = ['TYPE Code', 'TYPE Signal', 'SELECT [0,3]', 'MOVE_CURSOR -3', 'TYPE maCa']
+let operations = ['TYPE Code', 'TYPE Signal', 'SELECT [0,10]', 'TYPE MARISSA ZHONG', 'MOVE_CURSOR -5', 'TYPE MACALINTAL-']
 function cs_solution_1(operations){
     let result = "";                //INITIATE STRING TO BE RETURNED
     let cursor_pos = 0;             //INITIATE CURSOR POSITION
     let prev_ops = [];              //INITIATE ARRAY OF PREVIOUS COMMANDS FOR FUTURE REFERENCE IN UNDO OPERATION
 
     for(let i = 0; i < operations.length; i++){
-        let c_arr = operations[i].split(' ');
+        let c_arr = operations[i].split(/(?<=^\S+)\s/);                 //REGEX FOR POSITIVE LOOKBEHIND TO SPLIT STRING BASED ONLY ON FIRST WHITESPACE
         let op = {command: c_arr[0]};
 
         if (op['command'] == 'TYPE'){
             op['value'] = c_arr[1];
             if (prev_ops.length > 0){                                   //DETERMINES STRING REPLACEMENT OR NOT DEPENDING ON PREVIOUS 'SELECT' COMMAND
                 if (prev_ops.slice(-1)[0]['op']['command'] == 'SELECT'){
-                    cursor_pos = prev_ops[-1]['op']['select_start'];
-                    result = result.slice(0, select_start) + result.slice(select_end);
+                    cursor_pos = prev_ops.slice(-1)[0]['select_start'];
+                    result = result.slice(0, prev_ops.slice(-1)[0]['select_start']) + result.slice(prev_ops.slice(-1)[0]['select_end']);
                 }
             }
             result = result.slice(0, cursor_pos) + op['value'] + result.slice(cursor_pos);
@@ -96,8 +100,8 @@ function cs_solution_1(operations){
             prev_ops.push({op, result, cursor_pos});                    //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
         } else if (op['command'] == 'SELECT'){
             op['value'] = c_arr[1];
-            let select_start = op['value'].split(/\,|\[|\]/)[1];
-            let select_end = op['value'].split(/\,|\[|\]/)[2];
+            let select_start = parseInt(op['value'].split(/\,|\[|\]/)[1]);
+            let select_end = parseInt(op['value'].split(/\,|\[|\]/)[2]);
             result += "";
             cursor_pos = select_end;
             prev_ops.push({op, result, cursor_pos, select_start, select_end});
@@ -118,6 +122,7 @@ function cs_solution_1(operations){
     console.log(`Current Cursor Position: ${cursor_pos}`)
     console.log(`All previous commands:`)
     console.log(prev_ops)
+
 }
 
 cs_solution_1(operations)
