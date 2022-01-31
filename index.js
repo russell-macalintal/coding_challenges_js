@@ -136,7 +136,10 @@ function cs_solution_1(operations){
 
 // CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #2
 // FIND LARGEST PALINDROME STRING GENERATED FROM A RANDOM SET OF CHARACTERS. IF MULTIPLE STRINGS OF THE SAME LENGTH ARE FOUND, RETURN THE 'LEXICALLY SMALLEST' STRING.
-let random_chars = "bbaaa";
+// let random_chars = "bbaaa";
+// let random_chars = "cbaaa";
+// let random_chars = "azaleaelaza";
+let random_chars = "adjtkakenivxalajakwzsedaaassksddkddssaaaditm";
 function cs_solution_2(random_chars){
     let char_array = [...random_chars];
     let pal_array = [];                                 //INITIATE PALINDROME ARRAY
@@ -145,15 +148,27 @@ function cs_solution_2(random_chars){
     char_array.sort();
     while (char_array.length > 0) {
         if (char_array[0] === char_array[1]){
-            pairs.push(char_array.unshift());
-            pairs.push(char_array.unshift());
+            pairs.push(char_array.shift());
+            pairs.push(char_array.shift());
         } else {
-            unpaired.push(char_array.unshift());
+            unpaired.push(char_array.shift());
         }
     }
-    console.log(char_array);
-    console.log(pairs);
-    console.log(unpaired);
+
+    console.log(`Pairs: ${pairs}`);
+    console.log(`Unpaired: ${unpaired}`);
+
+    pairs.reverse();                                    //REVERSE ORDER OF PAIRS IN PREPARTION FOR PALINDROME CREATION
+    console.log(`Pairs Reverse: ${pairs}`);
+    if (unpaired.length > 0){
+        pal_array.push(unpaired.shift());                //IF THERE ARE ANY UNPAIRED CHARACTERS, PUSH THE FIRST ELEMENT OF THE UNPAIRED ARRAY TO THE PALINDROME (**PALINDROME CAN ONLY HAVE A MAXIMUM OF 1 UNPAIRED CHARACTER LOCATED IN THE MIDDLE)
+    }
+    while (pairs.length > 0) {
+        pal_array.push(pairs.shift());
+        pal_array.unshift(pairs.shift());
+    }
+    console.log(`Largest Palindrome: ${pal_array.join('')}`);
+    
 }
 
 cs_solution_2(random_chars);
