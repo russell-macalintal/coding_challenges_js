@@ -58,7 +58,7 @@ const solution = (problem) => {
 
 
 
-// COODESIGNAL PRACTICE PROBLEMS:
+// COODESIGNAL PRACTICE PROBLEMS: CHALLENGE #1
 // MIMIC TEXT EDITOR OPERATIONS
 // 'TYPE string' => fills current string with input
 // 'MOVE_CURSOR integer' => moves cursor by the input interval
@@ -82,11 +82,11 @@ function cs_solution_1(operations){
 
     for(let i = 0; i < operations.length; i++){
         let c_arr = operations[i].split(/(?<=^\S+)\s/);                 //REGEX FOR POSITIVE LOOKBEHIND TO SPLIT STRING BASED ONLY ON FIRST WHITESPACE
-        let op = {command: c_arr[0]};
+        let op = {command: c_arr[0]};                                   //SPLIT EACH OPERATION INTO ITS 'COMMAND' AND 'VALUE' STRINGS
 
         if (op['command'] == 'TYPE'){
             op['value'] = c_arr[1];
-            if (prev_ops.length > 0){                                   //DETERMINES STRING REPLACEMENT OR NOT DEPENDING ON PREVIOUS 'SELECT' COMMAND
+            if (prev_ops.length > 0){                                   //IF PRECEDING COMMAND IS 'SELECT' REMOVE THE SELECTED STRING AND REPLACE WITH NEW STRING
                 if (prev_ops.slice(-1)[0]['op']['command'] == 'SELECT'){
                     cursor_pos = prev_ops.slice(-1)[0]['select_start'];
                     result = result.slice(0, prev_ops.slice(-1)[0]['select_start']) + result.slice(prev_ops.slice(-1)[0]['select_end']);
@@ -112,11 +112,11 @@ function cs_solution_1(operations){
             prev_ops.push({op, result, cursor_pos, select_start, select_end});      //STORE EXECUTED COMMAND, CURRENT STRING, AND CURSOR POSITION FOR FUTURE REFERENCE
         } else if (op['command'] == 'UNDO'){
             if (prev_ops.length > 1){
-                cursor_pos = prev_ops.slice(-2)[0]['cursor_pos'];                   //REVERT CURSOR POSITION AND STRING RESULT TO STATE FROM 2 STATES AGO {CURRENT CONDITION MATCHES LAST SAVED STATE}
+                cursor_pos = prev_ops.slice(-2)[0]['cursor_pos'];                   //REVERT CURSOR POSITION AND STRING RESULT TO STATE FROM 2 STATES AGO {**CURRENT CONDITION MATCHES LAST SAVED STATE**}
                 result = prev_ops.slice(-2)[0]['result'];
                 prev_ops.pop();                                                     //REMOVE LAST SAVED STATE FROM ARRAY OF PREVIOUS COMMANDS
             } else {
-                cursor_pos = 0;
+                cursor_pos = 0;                                                     //IF PREVIOUS OPERATIONS ARRAY ONLY HAS ONE EXECUTED COMMAND (**WHICH THE CURRENT CONDITION ALREADY REFLECTS**), THEN RESET ALL PARAMETERS TO INITIAL VALUE
                 result = "";
                 prev_ops = [];
             }
@@ -130,4 +130,13 @@ function cs_solution_1(operations){
 
 }
 
-cs_solution_1(operations)
+// cs_solution_1(operations)
+
+
+
+// CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #2
+// FIND LARGEST PALINDROME STRING GENERATED FROM A RANDOM SET OF CHARACTERS. IF MULTIPLE STRINGS OF THE SAME LENGTH ARE FOUND, RETURN THE 'LEXICALLY SMALLEST' STRING.
+let random_chars = "aaabb";
+function cs_solution_2(random_chars){
+    let char_array = random_chars.
+}
