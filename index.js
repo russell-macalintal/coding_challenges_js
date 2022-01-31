@@ -136,7 +136,24 @@ function cs_solution_1(operations){
 
 // CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #2
 // FIND LARGEST PALINDROME STRING GENERATED FROM A RANDOM SET OF CHARACTERS. IF MULTIPLE STRINGS OF THE SAME LENGTH ARE FOUND, RETURN THE 'LEXICALLY SMALLEST' STRING.
-let random_chars = "aaabb";
+let random_chars = "bbaaa";
 function cs_solution_2(random_chars){
-    let char_array = random_chars.
+    let char_array = [...random_chars];
+    let pal_array = [];                                 //INITIATE PALINDROME ARRAY
+    let unpaired = [];
+    let pairs = [];                                     //INITIATE ARRAY FOR PAIRED CHARACTERS
+    char_array.sort();
+    while (char_array.length > 0) {
+        if (char_array[0] === char_array[1]){
+            pairs.push(char_array.unshift());
+            pairs.push(char_array.unshift());
+        } else {
+            unpaired.push(char_array.unshift());
+        }
+    }
+    console.log(char_array);
+    console.log(pairs);
+    console.log(unpaired);
 }
+
+cs_solution_2(random_chars);
