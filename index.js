@@ -171,4 +171,131 @@ function cs_solution_2(random_chars){
     
 }
 
-cs_solution_2(random_chars);
+// cs_solution_2(random_chars);
+
+
+
+// CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #3
+// DIAGONAL SEARCH ALGORITHM
+// GIVEN A MATRIX OF 1, 0, AND 2, FIND THE LARGEST 1, 2, 0, 2, O, .... PATTERN ALONG A DIAGONAL
+// SEARCH MUST ALWAYS START AT NUMBER 1
+// RETURN MUST BE THE LENGTH OF THE LONGEST SOLUTION
+
+// let matrix = [
+//     [1, 0, 2, 0],
+//     [0, 2, 0, 0],
+//     [0, 2, 0, 0],
+//     [1, 2, 0, 2]
+// ]
+
+// let matrix = [
+//     [1, 0, 2, 2, 1],
+//     [0, 2, 0, 2, 0],
+//     [0, 2, 0, 0, 2],
+//     [1, 2, 0, 2, 0],
+//     [0, 2, 0, 2, 1]
+// ]
+
+// let matrix = [
+//     [1, 2, 0, 2, 0],
+//     [0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 2],
+//     [1, 2, 0, 2, 0],
+//     [0, 2, 0, 2, 1]
+// ]
+
+let matrix = [
+    [0, 0, 2, 2, 0],
+    [0, 0, 0, 1, 0],
+    [0, 2, 2, 0, 2],
+    [0, 0, 0, 0, 0],
+    [2, 2, 0, 2, 0]
+]
+
+function cs_solution_3(matrix) {
+    // EACH SEARCH HAS 4 PATHS [+ROW, +COL], [+ROW, -COL], [-ROW, +COL], [-ROW, -COL]
+    //MATRIX DOES NOT HAVE TO BE A SQUARE
+    
+    
+    function search_down_right(r, c, match){
+        let result = 0;
+        if(r+1 < matrix.length && c+1 < matrix[r].length){
+            if(matrix[r+1][c+1] == match){
+                result = 1;
+                if(match == 2){
+                    result += search_down_right(r+1, c+1, 0);
+                }else if(match == 0){
+                    result += search_down_right(r+1, c+1, 2);
+                }
+            }else{
+                result = 0;
+            }
+        }
+        return result;
+    }
+    
+    function search_down_left(r, c, match){
+        let result = 0;
+        if(r+1 < matrix.length && 0 <= c-1){
+            if(matrix[r+1][c-1] == match){
+                result = 1;
+                if(match == 2){
+                    result += search_down_left(r+1, c-1, 0)
+                }else if(match == 0){
+                    result += search_down_left(r+1, c-1, 2)
+                }
+            }else{
+                result = 0;
+            }
+        }
+        return result;
+    }
+    
+    function search_up_right(r, c, match){
+        let result = 0;
+        if((r-1) >= 0 && c+1 < matrix[r].length){
+            if(matrix[r-1][c+1] == match){
+                result = 1;
+                if(match == 2){
+                    result += search_up_right(r-1, c+1, 0)
+                }else if(match == 0){
+                    result += search_up_right(r-1, c+1, 2)
+                }
+            }else{
+                result = 0;
+            }
+        }
+        return result;
+    }
+    
+    function search_up_left(r, c, match){
+        let result = 0;
+        if(0 <= r-1 && 0 <= c-1){
+            if(matrix[r-1][c-1] == match){
+                result = 1;
+                if(match == 2){
+                    result += search_up_left(r-1, c-1, 0)
+                }else if(match == 0){
+                    result += search_up_left(r-1, c-1, 2)
+                }
+            }else{
+                result = 0;
+            }
+        }
+        return result;
+    }
+    
+    let counter = [];
+    for(let i = 0; i < matrix.length; i++){
+        for(let j = 0; j < matrix[i].length; j++){
+            if (matrix[i][j] == 1) {
+                console.log(`Found at ${i}, ${j}`);
+                console.log(`Max pattern: ${1 + Math.max(search_down_right(i,j,2), search_down_left(i,j,2), search_up_right(i,j,2), search_up_left(i,j,2))}\n`);
+                // counter = [...counter, search_down_right(i, j, 2), search_down_left(i, j, 2),search_up_right(i, j, 2), search_up_left(i, j, 2)];
+            }
+        }
+    }
+}
+    
+
+    cs_solution_3(matrix);
