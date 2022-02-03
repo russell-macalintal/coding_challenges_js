@@ -310,7 +310,9 @@ function cs_solution_3(matrix) {
 // towers = [3, 5, 6, 7]           // MOVES = 1  --> [4, 5, 6, 7]
 // towers = [3, 4, 5, 6, 10]       // MOVES = 12 --> [6, 7, 8, 9, 10]
 // towers = [2, 10000]             // MOVES = 9997 --> [9999, 10000]
-towers = [3, 9, 8, 5]           // MOVES = 9 --> [10, 9, 8, 7]
+// towers = [3, 9, 8, 5]           // MOVES = 9 --> [10, 9, 8, 7]
+// towers = [3, 10, 6, 5]          // MOVES = 18 --> [9, 10, 11, 12]      MOVES = 14 --> [11, 10, 9, 8]
+towers = [9, 10, 9, 8]          // MOVES = 6 --> [9, 10, 11, 12]      MOVES = 2 --> [11, 10, 9, 8]
 
 function cs_solution_4(towers){
     let max_idx = towers.indexOf(Math.max(...towers));              //FIND INDEX OF TALLEST TOWER
@@ -337,10 +339,14 @@ function cs_solution_4(towers){
             moves += (towers[i+1] - 1) - towers[i];
             towers[i] = towers[i+1] - 1;
         }
-    } else {                                                        //STEPS IF TALLEST TOWER IS IN THE MIDDLE OF THE ARRAY
+    } else {                                                                //STEPS IF TALLEST TOWER IS IN THE MIDDLE OF THE ARRAY
         let asc_moves = 0;
         let asc_towers = [...towers];
-        for (let i = max_idx - 1; i >= 0; i--){                     //DO 2 FOR LOOPS TO CHECK NUMBER OF MOVES FOR ASCENDING PATTERN
+        if ((asc_towers[max_idx] - asc_towers[0]) / max_idx < 1){           //CHECK THAT THE MAX TOWER HEIGHT HAS 1:1 SLOPE COMPARED TO THE TOWER AT ARRAY[FIRST]
+            asc_towers[max_idx] = asc_towers[0] + max_idx;
+        }
+
+        for (let i = max_idx - 1; i >= 0; i--){                             //DO 2 FOR LOOPS TO CHECK NUMBER OF MOVES FOR ASCENDING PATTERN
             let current_moves = (asc_towers[i+1] - 1) - asc_towers[i];      //FOR LOOP TO LOOK LEFT
             while (current_moves < 0) {
                 asc_moves += 1;
@@ -350,7 +356,7 @@ function cs_solution_4(towers){
             asc_towers[i] = asc_towers[i+1] - 1;
             console.log('Working on ASC_1');
         }
-        for (let i = max_idx + 1; i < asc_towers.length; i++){          //FOR LOOP TO LOOK RIGHT
+        for (let i = max_idx + 1; i < asc_towers.length; i++){              //FOR LOOP TO LOOK RIGHT
             asc_moves += (asc_towers[i-1] + 1) - asc_towers[i];
             asc_towers[i] = asc_towers[i-1] + 1;
             console.log('Working on ASC_2');
@@ -358,8 +364,12 @@ function cs_solution_4(towers){
         // ================================================================================================================
         let desc_moves = 0;
         let desc_towers = [...towers];
-        for (let i = max_idx + 1; i < desc_towers.length; i++){          //DO 2 FOR LOOPS TO CHECK NUMBER OF MOVES FOR DESCENDING PATTERN
-            let current_moves = (desc_towers[i-1] - 1) - desc_towers[i];      //FOR LOOP TO LOOK RIGHT
+        if ((desc_towers[max_idx] - desc_towers[desc_towers.length-1]) / ((desc_towers.length-1) - max_idx) < 1){                   //CHECK THAT THE MAX TOWER HEIGHT HAS 1:1 SLOPE COMPARED TO THE TOWER AT ARRAY[LAST]
+            desc_towers[max_idx] = desc_towers[desc_towers.length-1] + ((desc_towers.length-1) - max_idx);
+        }
+
+        for (let i = max_idx + 1; i < desc_towers.length; i++){             //DO 2 FOR LOOPS TO CHECK NUMBER OF MOVES FOR DESCENDING PATTERN
+            let current_moves = (desc_towers[i-1] - 1) - desc_towers[i];    //FOR LOOP TO LOOK RIGHT
             while (current_moves < 0) {
                 desc_moves += 1;
                 desc_towers[i-1] += 1;
@@ -368,7 +378,7 @@ function cs_solution_4(towers){
             desc_towers[i] = desc_towers[i-1] - 1;
             console.log('Working on DESC_1');
         }
-        for (let i = max_idx - 1; i >= 0; i--){                     //FOR LOOP TO LOOK LEFT
+        for (let i = max_idx - 1; i >= 0; i--){                             //FOR LOOP TO LOOK LEFT
             desc_moves += (desc_towers[i+1] + 1) - desc_towers[i];
             desc_towers[i] = desc_towers[i+1] + 1;
             console.log('Working on DESC_2');
