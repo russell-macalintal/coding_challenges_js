@@ -297,5 +297,80 @@ function cs_solution_3(matrix) {
     }
 }
     
+// cs_solution_3(matrix);
 
-    cs_solution_3(matrix);
+
+
+// CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #4
+// TOWER PROBLEM
+// FIND THE MINIMUM MOVES REQUIRED TO MAKE AN ARRAY OF TOWERS EITHER IN ASCENDING OR DESCENDING ORDER
+// STARTING TOWER ARRAY INCLUDES TOWER HEIGHTS RANDOMLY ARRANGED
+// UNIT BLOCKS CAN ONLY BE **ADDED** TO THE EXISTING TOWER HEIGHTS -- UNIT BLOCKS CANNOT BE SUBTRACTED FROM THE HEIGHTS
+
+// towers = [3, 5, 6, 7]           // MOVES = 1  --> [4, 5, 6, 7]
+// towers = [3, 4, 5, 6, 10]       // MOVES = 12 --> [6, 7, 8, 9, 10]
+towers = [2, 10000]             // MOVES = 9997 --> [9999, 10000]
+// towers = [3, 9, 8, 5]           // MOVES = 12 --> [10, 9, 8, 7]
+
+function cs_solution_4(towers){
+    let max_idx = towers.indexOf(Math.max(...towers));              //FIND INDEX OF TALLEST TOWER
+    console.log(max_idx);
+    let moves = 0;                                                  //INITIATE SOLUTION
+    
+    if (max_idx == 0){                                              //STEPS IF TALLEST TOWER IS IN THE BEGINNING OF THE ARRAY
+        for(let i = 1; i < towers.length; i++){
+            let current_moves = (towers[i-1] - 1) - towers[i];
+            while (current_moves < 0) {                             //IF PREVIOUS ELEMENT IS NOT LARGER THAN CURRENT ELEMENT, THEN ADD A BLOCK TO THE PREVIOUS ELEMENT AND COUNT AN ADDITIONAL MOVE
+                moves += 1;
+                towers[i-1] += 1;
+            }
+            moves += (towers[i-1] - 1) - towers[i];
+            towers[i] = towers[i-1] - 1;
+        }
+    } else if (max_idx == towers.length - 1) {                      //STEPS IF TALLEST TOWER IS IN THE END OF THE ARRAY
+        for(let i = towers.length-2 ; i >= 0; i--){
+            let current_moves = (towers[i+1] - 1) - towers[i];
+            while (current_moves < 0) {                             //IF PREVIOUS ELEMENT IS NOT LARGER THAN CURRENT ELEMENT, THEN ADD A BLOCK TO THE PREVIOUS ELEMENT AND COUNT AN ADDITIONAL MOVE
+                moves += 1;
+                towers[i+1] += 1;
+            }
+            moves += (towers[i+1] - 1) - towers[i];
+            towers[i] = towers[i+1] - 1;
+        }
+    } else {                                                        //STEPS IF TALLEST TOWER IS IN THE MIDDLE OF THE ARRAY
+        let asc_moves = 0;
+        let desc_moves = 0;
+        for (let i = max_idx - 1; i >= 0; i--){                     //DO 2 FOR LOOPS TO CHECK NUMBER OF MOVES FOR ASCENDING PATTERN
+            let current_moves = (towers[i+1] - 1) - towers[i];      //FOR LOOP TO LOOK LEFT
+            while (current_moves < 0) {
+                asc_moves += 1;
+                towers[i+1] += 1;
+            }
+            asc_moves += (towers[i+1] - 1) - towers[i];
+            towers[i] = towers[i+1] - 1;
+        }
+        for (let i = max_idx + 1; i < towers.length; i++){          //FOR LOOP TO LOOK RIGHT
+            asc_moves += (towers[i-1] + 1) - towers[i];
+            towers[i] = towers[i-1] + 1;
+        }
+        // ================================================================================================================
+        for (let i = max_idx + 1; i < towers.length; i++){          //DO 2 FOR LOOPS TO CHECK NUMBER OF MOVES FOR DESCENDING PATTERN
+            let current_moves = (towers[i-1] - 1) - towers[i];      //FOR LOOP TO LOOK RIGHT
+            while (current_moves < 0) {
+                desc_moves += 1;
+                towers[i-1] += 1;
+            }
+            desc_moves += (towers[i-1] - 1) - towers[i];
+            towers[i] = towers[i-1] - 1;
+        }
+        for (let i = max_idx - 1; i >= 0; i--){                     //FOR LOOP TO LOOK LEFT
+            desc_moves += (towers[i+1] + 1) - towers[i];
+            towers[i] = towers[i+1] + 1;
+        }
+    }
+
+    console.log(`Tower: ${towers}`);
+    console.log(`Moves: ${moves}`);
+}
+
+cs_solution_4(towers);
