@@ -307,13 +307,15 @@ function cs_solution_3(matrix) {
 // STARTING TOWER ARRAY INCLUDES TOWER HEIGHTS RANDOMLY ARRANGED
 // UNIT BLOCKS CAN ONLY BE **ADDED** TO THE EXISTING TOWER HEIGHTS -- UNIT BLOCKS CANNOT BE SUBTRACTED FROM THE HEIGHTS
 
-// towers = [3, 5, 6, 7]           // MOVES = 1  --> [4, 5, 6, 7]
-// towers = [3, 4, 5, 6, 10]       // MOVES = 12 --> [6, 7, 8, 9, 10]
-// towers = [2, 10000]             // MOVES = 9997 --> [9999, 10000]
-// towers = [3, 9, 8, 5]           // MOVES = 9 --> [10, 9, 8, 7]
-// towers = [3, 10, 6, 5]          // MOVES = 18 --> [9, 10, 11, 12]      MOVES = 14 --> [11, 10, 9, 8]
-towers = [9, 10, 9, 8]          // MOVES = 6 --> [9, 10, 11, 12]      MOVES = 2 --> [11, 10, 9, 8]
+// let towers = [3, 5, 6, 7]           // MOVES = 1  --> [4, 5, 6, 7]
+// let towers = [3, 4, 5, 6, 10]       // MOVES = 12 --> [6, 7, 8, 9, 10]
+// let towers = [2, 10000]             // MOVES = 9997 --> [9999, 10000]
+// let towers = [3, 9, 8, 5]           // MOVES = 9 --> [10, 9, 8, 7]
+// let towers = [3, 10, 6, 5]          // MOVES = 18 --> [9, 10, 11, 12]      MOVES = 14 --> [11, 10, 9, 8]
+// let towers = [9, 10, 9, 8]          // MOVES = 6 --> [9, 10, 11, 12]       MOVES = 2 --> [11, 10, 9, 8]]
 
+
+// THIS SOLUTION WORKS BUT NOT FOR ALL CASES. SEE CS_SOLUTION_4B BELOW FOR A REFACTORED SOLUTION THAT WORKS
 function cs_solution_4(towers){
     let max_idx = towers.indexOf(Math.max(...towers));              //FIND INDEX OF TALLEST TOWER
     console.log(max_idx);
@@ -354,12 +356,10 @@ function cs_solution_4(towers){
             }
             asc_moves += (asc_towers[i+1] - 1) - asc_towers[i];
             asc_towers[i] = asc_towers[i+1] - 1;
-            console.log('Working on ASC_1');
         }
         for (let i = max_idx + 1; i < asc_towers.length; i++){              //FOR LOOP TO LOOK RIGHT
             asc_moves += (asc_towers[i-1] + 1) - asc_towers[i];
             asc_towers[i] = asc_towers[i-1] + 1;
-            console.log('Working on ASC_2');
         }
         // ================================================================================================================
         let desc_moves = 0;
@@ -376,12 +376,10 @@ function cs_solution_4(towers){
             }
             desc_moves += (desc_towers[i-1] - 1) - desc_towers[i];
             desc_towers[i] = desc_towers[i-1] - 1;
-            console.log('Working on DESC_1');
         }
         for (let i = max_idx - 1; i >= 0; i--){                             //FOR LOOP TO LOOK LEFT
             desc_moves += (desc_towers[i+1] + 1) - desc_towers[i];
             desc_towers[i] = desc_towers[i+1] + 1;
-            console.log('Working on DESC_2');
         }
         if (asc_moves < desc_moves) {
             moves += asc_moves;
@@ -396,4 +394,75 @@ function cs_solution_4(towers){
     console.log(`Moves: ${moves}`);
 }
 
-cs_solution_4(towers);
+// cs_solution_4(towers);
+
+
+// ALTERNATE SOLUTION TO CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #4
+// let towers = [9, 10, 10, 10, 8]      // MOVES = 8 --> [9, 10, 11, 12, 13]   MOVES = 8 --> [13, 12, 11, 10, 9]
+// let towers = [9, 10, 11, 10, 10]     // MOVES = 5 --> [9, 10, 11, 12, 13]   MOVES = 10 --> [14, 13, 12, 11, 10]
+// let towers = [11, 18, 18, 18, 5]     // MOVES = 25 --> [17, 18, 19, 20, 21]   MOVES = 25 --> [21, 20, 19, 18, 17]
+let towers = [11, 18, 18, 18, 5, 17] // MOVES = 30 --> [17, 18, 19, 20, 21, 22]   MOVES = 30 --> [22, 21, 20, 19, 18, 17]
+
+function cs_solution_4b(towers){
+    let moves = 0;                                                  //INITIATE SOLUTION
+    
+    let asc_moves = 0;
+    let asc_towers = [...towers];
+    let max_idx = towers.indexOf(Math.max(...asc_towers));              //FIND INDEX OF TALLEST TOWER
+
+    if ((asc_towers[max_idx] - asc_towers[0]) / max_idx < 1){           //CHECK THAT THE MAX TOWER HEIGHT HAS 1:1 SLOPE COMPARED TO THE TOWER AT ARRAY[FIRST]
+        asc_towers[max_idx] = asc_towers[0] + max_idx;
+    }
+
+    for (let i = max_idx - 1; i >= 0; i--){                             //DO 2 FOR LOOPS TO CHECK NUMBER OF MOVES FOR ASCENDING PATTERN
+        let current_moves = (asc_towers[i+1] - 1) - asc_towers[i];      //FOR LOOP TO LOOK LEFT
+        while (current_moves < 0) {
+            asc_moves += 1;
+            asc_towers[i+1] += 1;
+        }
+        asc_moves += (asc_towers[i+1] - 1) - asc_towers[i];
+        asc_towers[i] = asc_towers[i+1] - 1;
+    }
+    for (let i = max_idx + 1; i < asc_towers.length; i++){              //FOR LOOP TO LOOK RIGHT
+        asc_moves += (asc_towers[i-1] + 1) - asc_towers[i];
+        asc_towers[i] = asc_towers[i-1] + 1;
+    }
+    // ================================================================================================================
+    let desc_moves = 0;
+    let desc_towers = [...towers];
+    desc_towers.reverse();                                              //REVERSE ARRAY ORDER TO ALLOW .indexOf TO FIND FIRST MAX TOWER INDEX
+    max_idx = towers.indexOf(Math.max(...desc_towers));                 //FIND INDEX OF TALLEST TOWER
+    if ((desc_towers[max_idx] - desc_towers[0]) / max_idx < 1){         //CHECK THAT THE MAX TOWER HEIGHT HAS 1:1 SLOPE COMPARED TO THE TOWER AT ARRAY[LAST]
+        desc_towers[max_idx] = desc_towers[0] + max_idx;
+    }
+
+    for (let i = max_idx - 1; i >= 0; i--){                             //DO 2 FOR LOOPS TO CHECK NUMBER OF MOVES FOR DESCENDING PATTERN
+        let current_moves = (desc_towers[i+1] - 1) - desc_towers[i];    //FOR LOOP TO LOOK RIGHT (OF ORIGINAL ARRAY)
+        while (current_moves < 0) {
+            desc_moves += 1;
+            desc_towers[i+1] += 1;
+        }
+        desc_moves += (desc_towers[i+1] - 1) - desc_towers[i];
+        desc_towers[i] = desc_towers[i+1] - 1;
+    }
+    for (let i = max_idx + 1; i < desc_towers.length; i++){             //FOR LOOP TO LOOK LEFT (OF ORIGINAL ARRAY)
+        desc_moves += (desc_towers[i-1] + 1) - desc_towers[i];
+        desc_towers[i] = desc_towers[i-1] + 1;
+    }
+
+    if (asc_moves < desc_moves) {
+        moves += asc_moves;
+        towers = asc_towers;
+        console.log('Ascending governs');
+    } else {
+        moves += desc_moves;
+        towers = desc_towers;
+        console.log('Descending governs');
+    }
+
+
+    console.log(`Tower: ${towers}`);
+    console.log(`Moves: ${moves}`);
+}
+
+cs_solution_4b(towers);
