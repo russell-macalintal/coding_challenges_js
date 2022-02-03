@@ -309,8 +309,8 @@ function cs_solution_3(matrix) {
 
 // towers = [3, 5, 6, 7]           // MOVES = 1  --> [4, 5, 6, 7]
 // towers = [3, 4, 5, 6, 10]       // MOVES = 12 --> [6, 7, 8, 9, 10]
-towers = [2, 10000]             // MOVES = 9997 --> [9999, 10000]
-// towers = [3, 9, 8, 5]           // MOVES = 12 --> [10, 9, 8, 7]
+// towers = [2, 10000]             // MOVES = 9997 --> [9999, 10000]
+towers = [3, 9, 8, 5]           // MOVES = 12 --> [10, 9, 8, 7]
 
 function cs_solution_4(towers){
     let max_idx = towers.indexOf(Math.max(...towers));              //FIND INDEX OF TALLEST TOWER
@@ -339,7 +339,7 @@ function cs_solution_4(towers){
         }
     } else {                                                        //STEPS IF TALLEST TOWER IS IN THE MIDDLE OF THE ARRAY
         let asc_moves = 0;
-        let desc_moves = 0;
+        
         for (let i = max_idx - 1; i >= 0; i--){                     //DO 2 FOR LOOPS TO CHECK NUMBER OF MOVES FOR ASCENDING PATTERN
             let current_moves = (towers[i+1] - 1) - towers[i];      //FOR LOOP TO LOOK LEFT
             while (current_moves < 0) {
@@ -354,6 +354,8 @@ function cs_solution_4(towers){
             towers[i] = towers[i-1] + 1;
         }
         // ================================================================================================================
+        let desc_moves = 0;
+
         for (let i = max_idx + 1; i < towers.length; i++){          //DO 2 FOR LOOPS TO CHECK NUMBER OF MOVES FOR DESCENDING PATTERN
             let current_moves = (towers[i-1] - 1) - towers[i];      //FOR LOOP TO LOOK RIGHT
             while (current_moves < 0) {
@@ -367,6 +369,8 @@ function cs_solution_4(towers){
             desc_moves += (towers[i+1] + 1) - towers[i];
             towers[i] = towers[i+1] + 1;
         }
+
+        moves += Math.min(asc_moves, desc_moves);
     }
 
     console.log(`Tower: ${towers}`);
