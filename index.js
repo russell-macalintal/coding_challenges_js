@@ -398,10 +398,14 @@ function cs_solution_4(towers){
 
 
 // ALTERNATE SOLUTION TO CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #4
-let towers = [9, 10, 10, 10, 8]      // MOVES = 8 --> [9, 10, 11, 12, 13]   MOVES = 8 --> [13, 12, 11, 10, 9]
+// let towers = [3, 5, 6, 7]           // MOVES = 1  --> [4, 5, 6, 7]
+// let towers = [3, 4, 5, 6, 10]       // MOVES = 12 --> [6, 7, 8, 9, 10]
+// let towers = [2, 10000]             // MOVES = 9997 --> [9999, 10000]
+// let towers = [3, 9, 8, 5]           // MOVES = 9 --> [10, 9, 8, 7]
+// let towers = [9, 10, 10, 10, 8]      // MOVES = 8 --> [9, 10, 11, 12, 13]   MOVES = 8 --> [13, 12, 11, 10, 9]
 // let towers = [9, 10, 11, 10, 10]     // MOVES = 5 --> [9, 10, 11, 12, 13]   MOVES = 10 --> [14, 13, 12, 11, 10]
 // let towers = [11, 18, 18, 18, 5]     // MOVES = 25 --> [17, 18, 19, 20, 21]   MOVES = 25 --> [21, 20, 19, 18, 17]
-// let towers = [11, 18, 18, 18, 5, 17] // MOVES = 30 --> [17, 18, 19, 20, 21, 22]   MOVES = 30 --> [22, 21, 20, 19, 18, 17]
+let towers = [11, 18, 18, 18, 5, 17] // MOVES = 30 --> [17, 18, 19, 20, 21, 22]   MOVES = 30 --> [22, 21, 20, 19, 18, 17]
 
 function cs_solution_4b(towers){
     let moves = 0;                                                  //INITIATE SOLUTION
@@ -462,7 +466,7 @@ function cs_solution_4b(towers){
         desc_towers[i] = desc_towers[i-1] + 1;
     }
 
-    if (asc_moves < desc_moves) {
+    if (asc_moves <= desc_moves) {
         moves += asc_moves;
         towers = asc_towers;
         console.log('Ascending governs');
