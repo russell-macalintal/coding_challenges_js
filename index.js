@@ -481,25 +481,26 @@ function cs_solution_4b(towers){
     console.log(`Moves: ${moves}`);
 }
 
-cs_solution_4b(towers);
+// cs_solution_4b(towers);
 
 
 
 // CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #5
 // REMOVE PREFIX PALINDROMES AND RETURN RESULTING STRING
-let s = 'aaacodecedoc'              //--> ""
+// let s = 'aaacodecedoc'              //--> ""
+// let s = 'abbacodesignal'            //--> "codesignal"
+let s = 'abbaabbb'                  //--> "abbb"
 function cs_solution_5(s) {
+    console.log(`Starting String: ${s}`);
     let s_arr = [...s];
     let temp = "";
     for(let i = s_arr.length - 1; i > 0; i--){
         if(s_arr[0] == s_arr[i]){
             temp = s_arr.slice(0, i+1);
-            console.log(temp);
             while(temp.length > 1){
                 if(temp[0] == temp[temp.length-1]){
                     temp.shift();
                     temp.pop();
-                    console.log(temp);
                 }else{
                     break;
                 }
@@ -511,9 +512,8 @@ function cs_solution_5(s) {
                 continue;
             }
         }
-        console.log(s_arr.toString());
     }
-    console.log(`Final Result: ${s_arr.toString()}`);
+    console.log(`Final Result: ${s_arr.join('')}`);
 }
 
 cs_solution_5(s);
