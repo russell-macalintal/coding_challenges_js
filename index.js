@@ -489,7 +489,14 @@ function cs_solution_4b(towers){
 // REMOVE PREFIX PALINDROMES AND RETURN RESULTING STRING
 // let s = 'aaacodecedoc'              //--> ""
 // let s = 'abbacodesignal'            //--> "codesignal"
-let s = 'abbaabbb'                  //--> "abbb"
+// let s = 'abbaabbb'                  //--> "abbb"
+// let s = 'ccctryccc'                 //--> "tryccc"
+// let s = 'codenarcedoc'              //--> "codenarcedoc"
+// let s = ''                          //--> ""
+// let s = 'codesignalaaaa'            //--> "codesignalaaaa"
+// let s = 'abbaddddfefcode'           //--> "code"
+let s = 'abbaddddfeffcode'          //--> "fcode"
+
 function cs_solution_5(s) {
     console.log(`Starting String: ${s}`);
     let s_arr = [...s];
