@@ -482,3 +482,60 @@ function cs_solution_4b(towers){
 }
 
 cs_solution_4b(towers);
+
+
+
+// CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #5
+// REMOVE PREFIX PALINDROMES AND RETURN RESULTING STRING
+let s = 'aaacodecedoc'              //--> ""
+function cs_solution_5(s) {
+    let s_arr = [...s];
+    let temp = "";
+    for(let i = s_arr.length - 1; i > 0; i--){
+        if(s_arr[0] == s_arr[i]){
+            temp = s_arr.slice(0, i+1);
+            console.log(temp);
+            while(temp.length > 1){
+                if(temp[0] == temp[temp.length-1]){
+                    temp.shift();
+                    temp.pop();
+                    console.log(temp);
+                }else{
+                    break;
+                }
+            }
+            if(temp.length <= 1){
+                s_arr = s_arr.slice(i+1);
+                i = s_arr.length;
+            }else{
+                continue;
+            }
+        }
+        console.log(s_arr.toString());
+    }
+    console.log(`Final Result: ${s_arr.toString()}`);
+}
+
+cs_solution_5(s);
+
+
+
+// CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #6
+// FIND MAXIMUM SUM OF ALL THE NUMBERS FOUND IN A DIAGONAL BOX DEFINED BY a AND b WITHIN A GIVEN MATRIX
+// function solution(a, k) {
+//     let max_ribbon = Math.max(...a);
+//     let max_length = 0;
+//     let num_ribbons;
+    
+//     for(let j = 1; j <= max_ribbon; j++){
+//         num_ribbons = 0;
+//         for(let i = 0; i < a.length; i++){
+//             num_ribbons += parseInt(a[i] / j);
+//         }
+//         if(num_ribbons >= k){
+//             max_length = j;
+//         }
+//     }
+//     return max_length
+    
+// }
