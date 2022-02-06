@@ -495,7 +495,7 @@ function cs_solution_4b(towers){
 // let s = ''                          //--> ""
 // let s = 'codesignalaaaa'            //--> "codesignalaaaa"
 // let s = 'abbaddddfefcode'           //--> "code"
-let s = 'abbaddddfeffcode'          //--> "fcode"
+// let s = 'abbaddddfeffcode'          //--> "fcode"
 
 function cs_solution_5(s) {
     console.log(`Starting String: ${s}`);
@@ -523,26 +523,39 @@ function cs_solution_5(s) {
     console.log(`Final Result: ${s_arr.join('')}`);
 }
 
-cs_solution_5(s);
+// cs_solution_5(s);
 
 
 
 // CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #6
-// FIND MAXIMUM SUM OF ALL THE NUMBERS FOUND IN A DIAGONAL BOX DEFINED BY a AND b WITHIN A GIVEN MATRIX
-// function solution(a, k) {
-//     let max_ribbon = Math.max(...a);
-//     let max_length = 0;
-//     let num_ribbons;
+// GIVEN AN ARRAY a OF RIBBONS WITH EACH ELEMENT INDICATING EACH RIBBON'S LENGTH, DETERMINE THE LONGEST LENGTH OF RIBBON THAT CAN BE FASHIONED FROM THE COLLECTION OF RIBBONS THAT WILL YIELD AT LEAST k NUMBER OF RIBBONS. EACH RIBBON ELEMENT CAN BE CUT TO A SPECIFIC LENGTH a WHILE DISPOSING OF THE LEFTOVER LENGTHS
+let a = [5, 7, 7, 10, 5];
+let k = 7;
+
+function cs_solution_6(a, k) {
+    let max_ribbon_length = Math.max(...a);
+    let max_length_possible = 0;
+    let num_ribbons;
     
-//     for(let j = 1; j <= max_ribbon; j++){
-//         num_ribbons = 0;
-//         for(let i = 0; i < a.length; i++){
-//             num_ribbons += parseInt(a[i] / j);
-//         }
-//         if(num_ribbons >= k){
-//             max_length = j;
-//         }
-//     }
-//     return max_length
+    for(let j = 1; j <= max_ribbon_length; j++){
+        num_ribbons = 0;
+        for(let i = 0; i < a.length; i++){
+            num_ribbons += parseInt(a[i] / j);              // COUNT NUMBER OF RIBBONS THAT CAN BE CUT TO LENGTH j
+        }
+
+        if(num_ribbons >= k){                               // CHECK THAT THE NUMBER OF RIBBONS SATISFY THE MINIMUM REQUIRED
+            max_length_possible = j;                        // IF IT MEETS MINIMUM REQUIREMENTS, CURRENT "MAX LENGTH" SHOULD BE SET TO j
+        } else {
+            break;                                          // ELSE IF MINIMUM NUMBER OF RIBBONS IS NO LONGER MET, BREAK THE OUTER FOR LOOP --> OPTIMIZE PERFORMANCE
+        }       
+    }
     
-// }
+    console.log(`Max Length: ${max_length_possible}`);
+}
+
+cs_solution_6(a, k);
+
+
+
+
+// FIND MAXIMUM SUM OF ALL THE NUMBERS FOUND IN A DIAGONAL BOX DEFINED BY LENGTH a AND WIDTH b WITHIN A GIVEN MATRIX
