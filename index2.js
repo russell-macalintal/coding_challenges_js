@@ -83,6 +83,13 @@ function solution(queries) {
                 results_arr.push(result);
                 prev_ops = [];
             }
+        } else if (op['command'] == 'REDO'){
+            if(undone.length > 0){
+                prev_ops.push(undone.pop());
+                cursor_pos = prev_ops.slice(-1)[0]['cursor_pos'];
+                result = prev_ops.slice(-1)[0]['result'];
+                results_arr.push(result);
+            }
         }
     }
     
@@ -91,10 +98,15 @@ function solution(queries) {
 
 queries = [
     ["APPEND", "Hello World"],
-    ["APPEND", " I'm Da Best"],
-    ["SELECT", "15", "23"],
+    ["APPEND", ", This is just a test!"],
+    ["SELECT", "12", "33"],
     ["COPY"],
     ["PASTE"],
-    ["PASTE"]
+    ["PASTE"],
+    ["UNDO"],
+    ["UNDO"],
+    ["UNDO"],
+    ["UNDO"],
+    ["UNDO"]
 ]
 solution(queries);

@@ -557,5 +557,124 @@ cs_solution_6(a, k);
 
 
 
+function solution(queries) {
+    let results_arr = [];                       //Array of all results after each operation
+    let result = "";                            //Current state of the result based on the latest operation - initiated to empty string;
+    let cursor_pos = 0;                         //Current position of cursor - initiated at 0;
+    let prev_ops = [];                          //Log all previous operations - certain operation behaviors depend on previous command
+    let copy = "";                              //Current value of copied elements - initiated to empty string;
+    let undone = [];                            //Array of all UNDO elements for future REDO command
+    
+    for(let i = 0; i < queries.length; i++){      
+        let op = {command: queries[i][0]};      //Split each query to a "command" and "value" property
+        
+        if (op['command'] == 'APPEND'){
+            op['value'] = queries[i][1];        //If command is APPEND, assign attached string as 'value'
+            if(prev_ops.length > 0){
+                if(prev_ops.slice(-1)[0]['op']['command'] == 'SELECT'){
+                    cursor_pos = prev_ops.slice(-1)[0]['op']['value']['left'];                      //If previous command is SELECT, place cursor to the left of selection and delete selected text before proceeding to code outside of IF statement
+                    result = result.slice(0, prev_ops.slice(-1)[0]['op']['value']['left']) + result.slice(prev_ops.slice(-1)[0]['op']['value']['right']);
+                }
+            }
+            
+            result = result.slice(0, cursor_pos) + op['value'] + result.slice(cursor_pos);           //Add APPEND value to resulting string based on cursor position
+            cursor_pos += op['value'].length;                   //Update cursor position based on 'value' appended 
+            prev_ops.push({op, result, cursor_pos});            //Add operation, resulting string, and current cursor position to array of previous ops
+            results_arr.push(result);
+        } else if (op['command'] == 'MOVE'){
+            op['value'] = queries[i][1];                        //If command is MOVE, parse string as integer and assign to 'value'
+            cursor_pos = parseInt(op['value']);
+            if (cursor_pos < 0){                                //Set text_start and text_end as boundaries
+                cursor_pos = 0;
+            } else if (cursor_pos > result.length){
+                cursor_pos = result.length;
+            }
+            prev_ops.push({op, result, cursor_pos});            //Add operation, resulting string, and current cursor position to array of previous ops
+            results_arr.push(result);                           //No change to result but add into array anyway
+        } else if (op['command'] == 'DELETE'){
+            let delete_end = cursor_pos + 1;                    //Default to one space past current cursor position
+            if(prev_ops.length > 0){
+                if(prev_ops.slice(-1)[0]['op']['command'] == 'SELECT'){
+                    cursor_pos = prev_ops.slice(-1)[0]['op']['value']['left'];                      //If preivious command is SELECT, place cursor to the left of selection
+                    delete_end = parseInt(prev_ops.slice(-1)[0]['op']['value']['right']);           //Overwrite delete_end with end of selection
+                }
+            }
+            result = result.slice(0, cursor_pos) + result.slice(delete_end);
+            prev_ops.push({op, result, cursor_pos});            //Add operation, resulting string, and current cursor position to array of previous ops
+            results_arr.push(result);
+        } else if (op['command'] == 'SELECT'){
+            op['value'] = {left: queries[i][1], right: queries[i][2]};                              //Assign attached string values as 'left' and 'right' parameters of 'value'
+            cursor_pos = parseInt(op['value']['right']);        //Set current cursor position to rightmost portion of selection
+            prev_ops.push({op, result, cursor_pos});            //Add operation, resulting string, and current cursor position to array of previous ops
+            results_arr.push(result);                           //No change to result but add into array anyway
+        } else if (op['command'] == 'COPY'){
+            if(prev_ops.length > 0){
+                if(prev_ops.slice(-1)[0]['op']['command'] == 'SELECT'){
+                    copy = result.slice(prev_ops.slice(-1)[0]['op']['value']['left'], prev_ops.slice(-1)[0]['op']['value']['right']);               //Set text to be copied
+                    cursor_pos = parseInt(prev_ops.slice(-1)[0]['op']['value']['left']);                                                            //If copying, cursor should move to the rightmost portion of selection
+                    op['value'] = {left: prev_ops.slice(-1)[0]['op']['value']['left'], right: prev_ops.slice(-1)[0]['op']['value']['right']};       //Copies 'left' and 'right' parameters for PASTE function
+                }
+            }
+            prev_ops.push({op, result, cursor_pos, copy});      //Add operation, resulting string, and current cursor position to array of previous ops
+            results_arr.push(result);                           //No change to result but add into array anyway
+        } else if (op['command'] == 'PASTE'){
+            op['value'] = copy;
+            if(prev_ops.length > 0){
+                if(prev_ops.slice(-1)[0]['op']['command'] == 'SELECT' || prev_ops.slice(-1)[0]['op']['command'] == 'COPY'){
+                    cursor_pos = prev_ops.slice(-1)[0]['op']['value']['left'];                      //If previous command is SELECT || COPY, place cursor to the left of selection and delete selected text before proceeding to code outside of IF statement
+                    delete_end = parseInt(prev_ops.slice(-1)[0]['op']['value']['right']);           //Overwrite delete end with end of selection
+                    result = result.slice(0, cursor_pos) + result.slice(delete_end);
+                } 
+            }
+            result = result.slice(0, cursor_pos) + op['value'] + result.slice(cursor_pos);           //Add COPY value to resulting string based on cursor position
+            cursor_pos += op['value'].length;                   //Update cursor position based on 'value' appended 
+            prev_ops.push({op, result, cursor_pos});            //Add operation, resulting string, and current cursor position to array of previous ops
+            results_arr.push(result);
+        } else if (op['command'] == 'UNDO'){
+            if(prev_ops.length > 0){                            //If there are any commands to undo, set previous cursor position and results to previous states
+                cursor_pos = prev_ops.slice(-2)[0]['cursor_pos'];
+                result = prev_ops.slice(-2)[0]['result'];
+                results_arr.push(result);
+                undone.push(prev_ops.pop());                    //Move undone command to another array for REDO reference
+            } else {                                            //If no commands left to undo, set cursor position and result to initial values
+                cursor_pos = 0;
+                result = "";
+                results_arr.push(result);
+                prev_ops = [];
+                console.log("Nothing to undo");
+            }
+        } else if (op['command'] == 'REDO'){
+            if(undone.length > 0){                              //If there are any commands to redo, push undone commands back to previously performed array and reset result and cursor position to latest states. Otherwise, do nothing.
+                prev_ops.push(undone.pop());
+                cursor_pos = prev_ops.slice(-1)[0]['cursor_pos'];
+                result = prev_ops.slice(-1)[0]['result'];
+                results_arr.push(result);
+            }
+        }
+    }
+    
+    console.log(results_arr);
+}
+
+queries = [
+    ["APPEND", "Hello World"],
+    ["APPEND", ", This is just a test!"],
+    ["SELECT", "12", "33"],
+    ["COPY"],
+    ["PASTE"],
+    ["PASTE"],
+    ["UNDO"],
+    ["UNDO"],
+    ["UNDO"],
+    ["UNDO"],
+    ["UNDO"],
+    ["UNDO"],
+    ["UNDO"],
+    ["UNDO"],
+    ["REDO"],
+    ["REDO"],
+    ["UNDO"]
+]
+solution(queries);
 
 // FIND MAXIMUM SUM OF ALL THE NUMBERS FOUND IN A DIAGONAL BOX DEFINED BY LENGTH a AND WIDTH b WITHIN A GIVEN MATRIX
