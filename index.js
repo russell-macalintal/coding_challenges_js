@@ -553,11 +553,11 @@ function cs_solution_6(a, k) {
     console.log(`Max Length: ${max_length_possible}`);
 }
 
-cs_solution_6(a, k);
+// cs_solution_6(a, k);
 
 
 
-function solution(queries) {
+function cs_solution_7(queries) {
     let results_arr = [];                       //Array of all results after each operation
     let result = "";                            //Current state of the result based on the latest operation - initiated to empty string;
     let cursor_pos = 0;                         //Current position of cursor - initiated at 0;
