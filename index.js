@@ -557,6 +557,9 @@ function cs_solution_6(a, k) {
 
 
 
+// COODESIGNAL PRACTICE PROBLEMS: CHALLENGE #7
+// VARIATION OF CHALLENGE #1 - MIMIC TEXT EDITOR OPERATIONS
+// COMMANDS - APPEND, MOVE, DELETE, SELECT, COPY, PASTE, UNDO, REDO
 function cs_solution_7(queries) {
     let results_arr = [];                       //Array of all results after each operation
     let result = "";                            //Current state of the result based on the latest operation - initiated to empty string;
