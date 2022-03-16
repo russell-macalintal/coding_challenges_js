@@ -1,4 +1,4 @@
-// JPMCC CODING CHALLENGE
+// CODING CHALLENGE
 // Input: jumbled numeral characters
 // Output: numerical representations of jumbled words sorted in ascending order
 // Import: Duplicates are not excluded from the outputw
@@ -28,7 +28,7 @@ const scrambler = (word) => {
 // console.log(`Puzzle to solve: ${scrambled}`);
 
 
-// JPMCC CODING CHALLENGE - NUMBER CHECKER
+// CODING CHALLENGE - NUMBER CHECKER
 const solution = (problem) => {
     
     let answer = [];
@@ -58,7 +58,7 @@ const solution = (problem) => {
 
 
 
-// COODESIGNAL PRACTICE PROBLEMS: CHALLENGE #1
+// CS PRACTICE PROBLEMS: CHALLENGE #1
 // MIMIC TEXT EDITOR OPERATIONS
 // 'TYPE string' => fills current string with input
 // 'MOVE_CURSOR integer' => moves cursor by the input interval
@@ -134,7 +134,7 @@ function cs_solution_1(operations){
 
 
 
-// CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #2
+// CS PRACTICE PROBLEMS: CHALLENGE #2
 // FIND LARGEST PALINDROME STRING GENERATED FROM A RANDOM SET OF CHARACTERS. IF MULTIPLE STRINGS OF THE SAME LENGTH ARE FOUND, RETURN THE 'LEXICALLY SMALLEST' STRING.
 // let random_chars = "bbaaa";
 // let random_chars = "cbaaa";
@@ -175,7 +175,7 @@ function cs_solution_2(random_chars){
 
 
 
-// CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #3
+// CS PRACTICE PROBLEMS: CHALLENGE #3
 // DIAGONAL SEARCH ALGORITHM
 // GIVEN A MATRIX OF 1, 0, AND 2, FIND THE LARGEST 1, 2, 0, 2, O, .... PATTERN ALONG A DIAGONAL
 // SEARCH MUST ALWAYS START AT NUMBER 1
@@ -301,7 +301,7 @@ function cs_solution_3(matrix) {
 
 
 
-// CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #4
+// CS PRACTICE PROBLEMS: CHALLENGE #4
 // TOWER PROBLEM
 // FIND THE MINIMUM MOVES REQUIRED TO MAKE AN ARRAY OF TOWERS EITHER IN ASCENDING OR DESCENDING ORDER
 // STARTING TOWER ARRAY INCLUDES TOWER HEIGHTS RANDOMLY ARRANGED
@@ -397,7 +397,7 @@ function cs_solution_4(towers){
 // cs_solution_4(towers);
 
 
-// ALTERNATE SOLUTION TO CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #4
+// ALTERNATE SOLUTION TO CS PRACTICE PROBLEMS: CHALLENGE #4
 // let towers = [3, 5, 6, 7]           // MOVES = 1  --> [4, 5, 6, 7]
 // let towers = [3, 4, 5, 6, 10]       // MOVES = 12 --> [6, 7, 8, 9, 10]
 // let towers = [2, 10000]             // MOVES = 9997 --> [9999, 10000]
@@ -485,7 +485,7 @@ function cs_solution_4b(towers){
 
 
 
-// CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #5
+// CS PRACTICE PROBLEMS: CHALLENGE #5
 // REMOVE PREFIX PALINDROMES AND RETURN RESULTING STRING
 // let s = 'aaacodecedoc'              //--> ""
 // let s = 'abbacodesignal'            //--> "codesignal"
@@ -527,7 +527,7 @@ function cs_solution_5(s) {
 
 
 
-// CODESIGNAL PRACTICE PROBLEMS: CHALLENGE #6
+// CS PRACTICE PROBLEMS: CHALLENGE #6
 // GIVEN AN ARRAY a OF RIBBONS WITH EACH ELEMENT INDICATING EACH RIBBON'S LENGTH, DETERMINE THE LONGEST LENGTH OF RIBBON THAT CAN BE FASHIONED FROM THE COLLECTION OF RIBBONS THAT WILL YIELD AT LEAST k NUMBER OF RIBBONS. EACH RIBBON ELEMENT CAN BE CUT TO A SPECIFIC LENGTH a WHILE DISPOSING OF THE LEFTOVER LENGTHS
 let a = [5, 7, 7, 10, 5];
 let k = 7;
@@ -557,7 +557,7 @@ function cs_solution_6(a, k) {
 
 
 
-// COODESIGNAL PRACTICE PROBLEMS: CHALLENGE #7
+// CS PRACTICE PROBLEMS: CHALLENGE #7
 // VARIATION OF CHALLENGE #1 - MIMIC TEXT EDITOR OPERATIONS
 // COMMANDS - APPEND, MOVE, DELETE, SELECT, COPY, PASTE, UNDO, REDO
 function cs_solution_7(queries) {
